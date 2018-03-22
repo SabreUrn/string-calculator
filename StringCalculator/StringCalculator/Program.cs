@@ -8,6 +8,15 @@ using System.Threading.Tasks;
 namespace StringCalculator {
 	class Program {
 		static void Main(string[] args) {
+			StringCalculator c = new StringCalculator();
+			string numbers = "// \n4 3 8 5";
+			Console.WriteLine(c.Add(numbers));
+			Console.WriteLine();
+
+			Match match = Regex.Match(numbers, @"\/\/.{1}\n");
+			Console.WriteLine(match.Success);
+			Console.ReadKey();
+			/*
 			char delimiter = ';';
 
 			string numbers = "//;\n2;2;2";
@@ -26,6 +35,7 @@ namespace StringCalculator {
 			}
 			Console.WriteLine("Printed out.");
 			Console.ReadKey();
+			*/
 		}
 	}
 }
