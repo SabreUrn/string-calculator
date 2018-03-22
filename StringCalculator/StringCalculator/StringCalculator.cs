@@ -15,12 +15,8 @@ namespace StringCalculator {
 			}
 
 			int[] numbersArrayInt = ConvertStringArrayToIntArray(numbersArray);
+			numbersArrayInt = RemoveNumbersGreaterThan(1000, numbersArrayInt);
 
-			for (int i = 0; i < numbersArrayInt.Count(); i++) {
-				if(numbersArrayInt[i] > 1000) {
-					numbersArrayInt[i] = 0;
-				}
-			}
 			//numbersArrayInt = numbersArrayInt.Select(n => { if (n > 1000) n = 0; return n; }).ToArray();
 
 			CheckStringArrayForNegativeNumbers(numbersArrayInt);
@@ -72,6 +68,15 @@ namespace StringCalculator {
 
 		private int[] ConvertStringArrayToIntArray(string[] stringArray) {
 			return Array.ConvertAll(stringArray, n => Int32.Parse(n));
+		}
+
+		private int[] RemoveNumbersGreaterThan(int limit, int[] array) {
+			for (int i = 0; i < array.Count(); i++) {
+				if (array[i] > limit) {
+					array[i] = 0;
+				}
+			}
+			return array;
 		}
 
 		/// <summary>
