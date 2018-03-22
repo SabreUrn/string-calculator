@@ -22,6 +22,17 @@ namespace StringCalculator {
 				return 0;
 			}
 
+			List<int> negativeNumbers = new List<int>();
+			foreach(string number in numbersArray) {
+				if(Int32.Parse(number) < 0) {
+					negativeNumbers.Add(Int32.Parse(number));
+				}
+			}
+			if(negativeNumbers.Count > 0) {
+				string negativeNumbersFormatted = "Negatives not allowed. Negatives: " + String.Join(",", negativeNumbers);
+				throw new NegativeNumberException(negativeNumbersFormatted);
+			}
+
 			int result = 0;
 			foreach (string number in numbersArray) {
 				result += Int32.Parse(number);

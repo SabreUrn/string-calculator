@@ -100,7 +100,7 @@ namespace StringCalculator.Tests {
 		public void AddTest_NegativeNumber_ExpectEx() {
 			//arrange
 			StringCalculator calculator = new StringCalculator();
-			string numbers = "//!\n-4;1;-3";
+			string numbers = "//!\n-4!1!-3";
 
 			//act
 			int actual = calculator.Add(numbers);
