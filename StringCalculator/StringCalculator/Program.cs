@@ -10,11 +10,18 @@ namespace StringCalculator {
 		static void Main(string[] args) {
 			StringCalculator c = new StringCalculator();
 			string numbers = "// \n4 3 8 5";
-			Console.WriteLine(c.Add(numbers));
+			//Console.WriteLine(c.Add(numbers));
 			Console.WriteLine();
 
 			Match match = Regex.Match(numbers, @"\/\/.{1}\n");
 			Console.WriteLine(match.Success);
+
+			int[] arr = { 3, 6, 1, 667, 1615, 33 };
+			int[] arr2 = arr.Select(n => { if (n > 1000) n = 0; return n; }).ToArray();
+			foreach(int i in arr2) {
+				Console.WriteLine(i);
+			}
+
 			Console.ReadKey();
 			/*
 			char delimiter = ';';

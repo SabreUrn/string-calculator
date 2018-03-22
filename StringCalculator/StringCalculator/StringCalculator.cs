@@ -15,6 +15,14 @@ namespace StringCalculator {
 			}
 
 			int[] numbersArrayInt = ConvertStringArrayToIntArray(numbersArray);
+
+			for (int i = 0; i < numbersArrayInt.Count(); i++) {
+				if(numbersArrayInt[i] > 1000) {
+					numbersArrayInt[i] = 0;
+				}
+			}
+			//numbersArrayInt = numbersArrayInt.Select(n => { if (n > 1000) n = 0; return n; }).ToArray();
+
 			CheckStringArrayForNegativeNumbers(numbersArrayInt);
 			int result = AddNumbersInIntArray(numbersArrayInt);
 			return result;

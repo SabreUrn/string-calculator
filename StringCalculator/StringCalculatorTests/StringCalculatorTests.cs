@@ -105,5 +105,19 @@ namespace StringCalculator.Tests {
 			//act
 			int actual = calculator.Add(numbers);
 		}
+
+		[TestMethod()]
+		public void AddTest_IgnoreNumberGreaterThan1000() {
+			//arrange
+			StringCalculator calculator = new StringCalculator();
+			int expected = 2;
+			string numbers = "2,1001";
+
+			//act
+			int actual = calculator.Add(numbers);
+
+			//assert
+			Assert.AreEqual(expected, actual);
+		}
 	}
 }
