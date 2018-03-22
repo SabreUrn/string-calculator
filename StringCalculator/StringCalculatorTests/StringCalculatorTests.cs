@@ -94,5 +94,16 @@ namespace StringCalculator.Tests {
 			//assert
 			Assert.AreEqual(expected, actual);
 		}
+
+		[TestMethod()]
+		[ExpectedException(typeof(NegativeNumberException))]
+		public void AddTest_NegativeNumber_ExpectEx() {
+			//arrange
+			StringCalculator calculator = new StringCalculator();
+			string numbers = "//!\n-4;1;-3";
+
+			//act
+			int actual = calculator.Add(numbers);
+		}
 	}
 }
