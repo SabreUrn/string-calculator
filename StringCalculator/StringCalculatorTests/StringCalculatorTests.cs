@@ -72,7 +72,7 @@ namespace StringCalculator.Tests {
 			//arrange
 			StringCalculator calculator = new StringCalculator();
 			int expected = 10;
-			string numbers = "3,4\n,3";
+			string numbers = "3,4\n3";
 
 			//act
 			int actual = calculator.Add(numbers);
@@ -86,7 +86,7 @@ namespace StringCalculator.Tests {
 			//arrange
 			StringCalculator calculator = new StringCalculator();
 			int expected = 20;
-			string numbers = @"//;\4;3;8;5";
+			string numbers = "//;\n4;3;8;5";
 
 			//act
 			int actual = calculator.Add(numbers);

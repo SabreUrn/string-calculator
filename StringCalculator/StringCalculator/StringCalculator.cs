@@ -10,10 +10,11 @@ namespace StringCalculator {
 		public int Add(string numbers) {
 			char delimiter = ',';
 
-			Match match = Regex.Match(numbers, @"\/\/[^\s]\\");
+			Match match = Regex.Match(numbers, @"\/\/[^\s]\n");
 			if(match.Success) {
 				//set delimiter
 				delimiter = match.Value[2];
+				numbers = numbers.Substring(4);
 			}
 
 			string[] numbersArray = numbers.Split(delimiter, '\n');
