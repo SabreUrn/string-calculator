@@ -24,5 +24,9 @@ namespace StringCalculator {
 		public static string DelimiterOnlyMatch() {
 			return @"(?<=\/\/).+(?=\n)";
 		}
+
+		public static string DelimiterSingleMatch() {
+			return @"\[.+?\]";
+		}
 	}
 }

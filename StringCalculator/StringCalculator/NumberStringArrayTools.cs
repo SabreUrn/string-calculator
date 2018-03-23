@@ -19,23 +19,16 @@ namespace StringCalculator {
 			List<string> delimiterList = new List<string>();
 			Match match = Regex.Match(numbers, RegexPatterns.DelimiterFullMatch());
 			if (match.Success) {
-				Match matchDelimiter = Regex.Match(numbers, RegexPatterns.DelimiterOnlyMatch()); //first () is a positive lookbehind to see if // is behind our match. second () is a positive lookahead to see if "\n" is in front of our match. grabs only the delimiter
+				Match matchDelimiter = Regex.Match(numbers, RegexPatterns.DelimiterOnlyMatch());
 
-				foreach(Match m in Regex.Matches(matchDelimiter.Value, @"\[.+?\]")) {
+				foreach(Match m in Regex.Matches(matchDelimiter.Value, RegexPatterns.DelimiterSingleMatch())) {
 					delimiterList.Add(HandleDelimiterMultipleCharSyntax(m.Value));
 				}
-				if(delimiterList.Count == 0) {
-					delimiter = matchDelimiter.Value;
-					delimiterList.Add(HandleDelimiterMultipleCharSyntax(delimiter));
-				}
-
-				//delimiter = matchDelimiter.Value;
-				//delimiter = HandleDelimiterMultipleCharSyntax(delimiter);
-				numbers = numbers.Substring(match.Value.Length);
+				delimiter = matchDelimiter.Value;
+				delimiterList = AddDelimiterToEmptyDelimiterList(delimiterList, delimiter);
+				numbers = numbers.Substring(match.Length);
 			}
-			if(delimiterList.Count == 0) {
-				delimiterList.Add(HandleDelimiterMultipleCharSyntax(delimiter));
-			}
+			delimiterList = AddDelimiterToEmptyDelimiterList(delimiterList, delimiter);
 			delimiterList.Add("\n");
 
 			string[] delimiterArray = delimiterList.ToArray();
@@ -45,10 +38,23 @@ namespace StringCalculator {
 		}
 
 		/// <summary>
-		/// Scrubs the square brackets from either side of a multi-char delimiter.
+		/// Adds a properly formatted delimiter to the delimiter list if he delimiter list contains no elements.
 		/// </summary>
-		/// <param name="delimiter">The delimiter to scrub.</param>
-		/// <returns>Returns the scrubbed delimiter.</returns>
+		/// <param name="delimiterList">The list of delimiters.</param>
+		/// <param name="delimiter">The delimiter to add (with [] stripped away if necessary).</param>
+		/// <returns></returns>
+		private static List<string> AddDelimiterToEmptyDelimiterList(List<string> delimiterList, string delimiter) {
+			if(delimiterList.Count == 0) {
+				delimiterList.Add(HandleDelimiterMultipleCharSyntax(delimiter));
+			}
+			return delimiterList;
+		}
+
+		/// <summary>
+		/// Strips  the square brackets from either side of a multi-char delimiter.
+		/// </summary>
+		/// <param name="delimiter">The delimiter to strip.</param>
+		/// <returns>Returns the stripped delimiter.</returns>
 		private static string HandleDelimiterMultipleCharSyntax(string delimiter) {
 			//for each [] delimiter block match, strip [] from delimiter and add to list
 
