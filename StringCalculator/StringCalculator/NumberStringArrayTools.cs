@@ -16,14 +16,30 @@ namespace StringCalculator {
 		public static string[] SetupStringArrayFromStringWithNumbers(string numbers) {
 			string delimiter = ",";
 
+			List<string> delimiterList = new List<string>();
 			Match match = Regex.Match(numbers, RegexPatterns.DelimiterFullMatch());
 			if (match.Success) {
 				Match matchDelimiter = Regex.Match(numbers, RegexPatterns.DelimiterOnlyMatch()); //first () is a positive lookbehind to see if // is behind our match. second () is a positive lookahead to see if "\n" is in front of our match. grabs only the delimiter
-				delimiter = matchDelimiter.Value;
-				delimiter = HandleDelimiterMultipleCharSyntax(delimiter);
+
+				foreach(Match m in Regex.Matches(matchDelimiter.Value, @"\[.+?\]")) {
+					delimiterList.Add(HandleDelimiterMultipleCharSyntax(m.Value));
+				}
+				if(delimiterList.Count == 0) {
+					delimiter = matchDelimiter.Value;
+					delimiterList.Add(HandleDelimiterMultipleCharSyntax(delimiter));
+				}
+
+				//delimiter = matchDelimiter.Value;
+				//delimiter = HandleDelimiterMultipleCharSyntax(delimiter);
 				numbers = numbers.Substring(match.Value.Length);
 			}
-			string[] numbersArray = numbers.Split(new string[] { delimiter, "\n" }, StringSplitOptions.RemoveEmptyEntries);
+			if(delimiterList.Count == 0) {
+				delimiterList.Add(HandleDelimiterMultipleCharSyntax(delimiter));
+			}
+			delimiterList.Add("\n");
+
+			string[] delimiterArray = delimiterList.ToArray();
+			string[] numbersArray = numbers.Split(delimiterList.ToArray(), StringSplitOptions.RemoveEmptyEntries);
 
 			return numbersArray;
 		}
@@ -34,9 +50,12 @@ namespace StringCalculator {
 		/// <param name="delimiter">The delimiter to scrub.</param>
 		/// <returns>Returns the scrubbed delimiter.</returns>
 		private static string HandleDelimiterMultipleCharSyntax(string delimiter) {
+			//for each [] delimiter block match, strip [] from delimiter and add to list
+
 			if (delimiter.StartsWith("[") && delimiter.EndsWith("]")) {
 				delimiter = delimiter.Substring(1, delimiter.Length - 2);
 			}
+			//we don't know how many elements our enumerable has, so we use a list instead of an array
 			return delimiter;
 		}
 

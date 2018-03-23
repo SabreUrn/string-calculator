@@ -20,6 +20,19 @@ namespace StringCalculator {
 			Match matchDelimiter = Regex.Match(numbers2, @"(?<=\/\/).+(?=\n)");
 			Console.WriteLine(matchDelimiter.Success);
 			Console.WriteLine(c.Add(numbers2));
+			Console.WriteLine();
+
+			string delimiter = "[!!!][**]";
+			List<string> delimiterList = new List<string>(); //Regex.Split(delimiter, @"(?<=[\[.+\]])").ToList();
+			foreach (Match m in Regex.Matches(delimiter, @"\[.+?\]")) {
+				delimiterList.Add(m.Value);
+			}
+
+			Console.WriteLine(delimiterList.Count + " elements in list:");
+			foreach(string s in delimiterList) {
+				Console.WriteLine(s);
+			}
+			
 
 			/*
 			int[] arr = { 3, 6, 1, 667, 1615, 33 };
