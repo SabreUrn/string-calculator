@@ -119,5 +119,19 @@ namespace StringCalculator.Tests {
 			//assert
 			Assert.AreEqual(expected, actual);
 		}
+
+		[TestMethod()]
+		public void AddTest_DelimitersLongerThanOneChar() {
+			//arrange
+			StringCalculator calculator = new StringCalculator();
+			int expected = 10;
+			string numbers = "//[!!!]\n4!!!5!!!1";
+
+			//act
+			int actual = calculator.Add(numbers);
+
+			//assert
+			Assert.AreEqual(expected, actual);
+		}
 	}
 }

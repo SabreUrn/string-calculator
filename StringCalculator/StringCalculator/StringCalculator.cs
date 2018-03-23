@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace StringCalculator {
 	public class StringCalculator {
+
 		public int Add(string numbers) {
 			string[] numbersArray = SetupStringArray(numbers);
 
@@ -31,15 +32,25 @@ namespace StringCalculator {
 		/// <param name="numbers">The string of numbers to convert to array.</param>
 		/// <returns>Returns a string array of numbers represented as text.</returns>
 		private string[] SetupStringArray(string numbers) {
-			char delimiter = ',';
-			Match match = Regex.Match(numbers, @"\/\/.{1}\n"); //checks for "//.\n" where . is any single character
-			if(match.Success) {
-				delimiter = match.Value[2];
-				numbers = numbers.Substring(4); //4 is the index where regular strings will start
+			string delimiter = ",";
+
+			Match match = Regex.Match(numbers, @"\/\/.+\n"); //checks for "//*\n" where * is any length of any character
+			if (match.Success) {
+				Match matchDelimiter = Regex.Match(numbers, @"(?<=\/\/).+(?=\n)"); //first () is a positive lookbehind to see if // is behind our match. second () is a positive lookahead to see if "\n" is in front of our match. grabs only the delimiter
+				delimiter = matchDelimiter.Value;
+				delimiter = HandleDelimiterMultipleCharSyntax(delimiter);
+				numbers = numbers.Substring(match.Value.Length);
 			}
-			string[] numbersArray = numbers.Split(delimiter, '\n');
+			string[] numbersArray = numbers.Split(new string[] { delimiter, "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
 			return numbersArray;
+		}
+
+		private string HandleDelimiterMultipleCharSyntax(string delimiter) {
+			if(delimiter.Length > 1) {
+				delimiter = delimiter.Substring(1, delimiter.Length - 2);
+			}
+			return delimiter;
 		}
 
 		/// <summary>
